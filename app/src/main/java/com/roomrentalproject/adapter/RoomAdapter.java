@@ -63,6 +63,21 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.RoomViewHolder
                 listener.onItemClick(v,holder.getAdapterPosition());
         });
 
+        holder.btDelete.setOnClickListener(v -> {
+
+            new AlertDialog.Builder(context)
+                    .setTitle("Xóa phòng")
+                    .setMessage("Bạn chắc chắn muốn xóa?")
+                    .setPositiveButton("Yes",(d,w)->{
+
+                        int pos = holder.getAdapterPosition();
+                        list.remove(pos);
+                        notifyDataSetChanged();
+
+                    })
+                    .setNegativeButton("No",null)
+                    .show();
+        });
     }
 
     @Override
@@ -75,6 +90,10 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.RoomViewHolder
         notifyDataSetChanged();
     }
 
+    public void update(int position, Room room){
+        list.set(position,room);
+        notifyDataSetChanged();
+    }
 
     public Room getItem(int position){
         return list.get(position);
