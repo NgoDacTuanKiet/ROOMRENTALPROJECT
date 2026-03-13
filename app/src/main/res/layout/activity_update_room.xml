@@ -2,8 +2,7 @@
     android:orientation="vertical"
     android:padding="10dp"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginTop="20dp">
+    android:layout_height="match_parent">
 
     <EditText
         android:id="@+id/maPhong"
@@ -37,7 +36,6 @@
 
     <EditText
         android:id="@+id/soDienThoai"
-        android:inputType="phone"
         android:hint="Số điện thoại"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
@@ -48,15 +46,10 @@
         android:layout_height="wrap_content">
 
         <Button
-            android:id="@+id/btAdd"
-            android:text="Add"
+            android:id="@+id/btUpdate"
+            android:text="Update"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
     </LinearLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycleView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
 
 </LinearLayout>
