@@ -9,10 +9,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.roomrentalproject.adapter.RoomAdapter;
-import com.roomrentalproject.model.Room;
+import com.roomrental.adapter.RoomAdapter;
+import com.roomrental.model.Room;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements RoomAdapter.RoomItemListener {
 
     EditText eMaPhong,eTenPhong,eGia,eNguoiThue,eSdt;
     Spinner spTinhTrang;
@@ -20,6 +20,8 @@ public class MainActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
     RoomAdapter adapter;
+
+    int currentPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
+        adapter.setClickListener(this);
 
         btAdd.setOnClickListener(v -> addRoom());
 
@@ -153,6 +156,59 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void updateRoom(){
+
+        Room room = new Room();
+
+        room.setMaPhong(eMaPhong.getText().toString());
+        room.setTenPhong(eTenPhong.getText().toString());
+        room.setGiaThue(Double.parseDouble(eGia.getText().toString()));
+        room.setTinhTrang(spTinhTrang.getSelectedItem().toString());
+        room.setTenNguoiThue(eNguoiThue.getText().toString());
+        room.setSoDienThoai(eSdt.getText().toString());
+
+        adapter.update(currentPosition,room);
+
+        btAdd.setEnabled(true);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == 100 && resultCode == RESULT_OK){
+
+            int position = data.getIntExtra("position",-1);
+
+            Room room = new Room();
+            room.setMaPhong(data.getStringExtra("maPhong"));
+            room.setTenPhong(data.getStringExtra("tenPhong"));
+            room.setGiaThue(data.getDoubleExtra("giaThue",0));
+            room.setTinhTrang(data.getStringExtra("tinhTrang"));
+            room.setTenNguoiThue(data.getStringExtra("tenNguoiThue"));
+            room.setSoDienThoai(data.getStringExtra("soDienThoai"));
+
+            adapter.update(position,room);
+        }
+    }
+
+    @Override
+    public void onItemClick(View view, int position) {
+
+        Room room = adapter.getItem(position);
+
+        Intent intent = new Intent(MainActivity.this, UpdateRoomActivity.class);
+
+        intent.putExtra("maPhong", room.getMaPhong());
+        intent.putExtra("tenPhong", room.getTenPhong());
+        intent.putExtra("giaThue", room.getGiaThue());
+        intent.putExtra("tinhTrang", room.getTinhTrang());
+        intent.putExtra("tenNguoiThue", room.getTenNguoiThue());
+        intent.putExtra("soDienThoai", room.getSoDienThoai());
+        intent.putExtra("position", position);
+
+        startActivityForResult(intent,100);
+    }
 
     private void clearForm(){
         eMaPhong.setText("");
