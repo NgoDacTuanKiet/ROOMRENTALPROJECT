@@ -9,8 +9,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.roomrental.adapter.RoomAdapter;
-import com.roomrental.model.Room;
+import com.roomrentalproject.adapter.RoomAdapter;
+import com.roomrentalproject.model.Room;
 
 public class MainActivity extends AppCompatActivity implements RoomAdapter.RoomItemListener {
 
